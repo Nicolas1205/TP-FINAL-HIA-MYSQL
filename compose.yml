@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   management1:
     image: mysql/mysql-cluster
@@ -35,6 +37,22 @@ services:
     networks:
       cluster:
         ipv4_address: 192.168.0.10
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql1
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: nicolas
+      PMA_ABSOLUTE_URI: http://localhost:8080/
+    depends_on:
+      - mysql1
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.11
 
   frontend:
     build: ./frontend
