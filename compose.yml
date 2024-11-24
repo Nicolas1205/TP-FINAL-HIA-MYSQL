@@ -29,7 +29,7 @@ services:
     image: mysql/mysql-cluster
     container_name: mysql1
     command: mysqld --default-authentication-plugin=mysql_native_password
-    ports: 
+    ports:
       - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: nicolas
@@ -84,9 +84,32 @@ services:
     depends_on:
       - mysql1
 
+  backup:
+    image: mysql:5.7
+    container_name: backup
+    command: >
+      sh -c "
+      while true; do
+        mysqldump -h mysql1 -u root -pnicolas --all-databases > /backups/backup-$(date +%F-%H-%M).sql;
+        echo Backup completado a $(date);
+        sleep 86400;
+      done
+      "
+    volumes:
+      - db_backups:/backups
+    depends_on:
+      - mysql1
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.12
+
 networks:
   cluster:
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.0.0/24
+
+volumes:
+  db_backups:
+    driver: local
