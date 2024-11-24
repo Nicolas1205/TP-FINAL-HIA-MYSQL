@@ -1,0 +1,74 @@
+services:
+  management1:
+    image: mysql/mysql-cluster
+    container_name: management1
+    command: ndb_mgmd
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.2
+
+  ndb1:
+    image: mysql/mysql-cluster
+    container_name: ndb1
+    command: ndbd
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.3
+
+  ndb2:
+    image: mysql/mysql-cluster
+    container_name: ndb2
+    command: ndbd
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.4
+
+  mysql1:
+    image: mysql/mysql-cluster
+    container_name: mysql1
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    ports: 
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: nicolas
+      MYSQL_DATABASE: db
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.10
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3001:3000"
+    networks:
+      - cluster
+    depends_on:
+      - mysql1
+
+  backend:
+    build: ./server
+    container_name: backend
+    ports:
+      - "3000:3000"
+    networks:
+      - cluster
+    environment:
+      PORT: 3000
+      DB_HOST: mysql1
+      DB_USER: root
+      DB_PASSWORD: nicolas
+      DB_DATABASE: db
+      DB_WAITFORCONNECTIONS: "true"
+      DB_CONNECTIONLIMIT: "10"
+      DB_QUEUELIMIT: "0"
+      DB_TABLENAME: users
+    depends_on:
+      - mysql1
+
+networks:
+  cluster:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
