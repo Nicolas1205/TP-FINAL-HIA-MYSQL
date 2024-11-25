@@ -3,7 +3,7 @@ import "./styles/App.css"
 function App() {
   return (
     <>
-      Hello Fucking World! YALL BITCHES
+      Hello World! YALL BITCHES
       <Table />
     </>
   );
