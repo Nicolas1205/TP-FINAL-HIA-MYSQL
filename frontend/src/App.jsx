@@ -3,7 +3,7 @@ import "./styles/App.css"
 function App() {
   return (
     <>
-      Hello Everyone! 
+      Tito Benjamin, Marcelo Ignacio Rodriguez, Anachuri Nicolas, Alejo Bolanho 
       <Table />
     </>
   );
