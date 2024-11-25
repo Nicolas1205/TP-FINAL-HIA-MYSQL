@@ -1,6 +1,62 @@
 version: "3.9"
 
 services:
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - "3001:3000"
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.5
+    volumes:
+      - ./grafana/grafana-datasource-config.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.7
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+
+  mysql-exporter:
+    image: prom/mysqld-exporter
+    container_name: mysql-exporter
+    hostname: mysql-exporter
+    command:
+      - --config.my-cnf=/cfg/.my.cnf
+      - --mysqld.address=192.168.0.10:3306
+    volumes:
+      - ./mysql/config.my-cnf:/cfg/.my.cnf
+    ports:
+      - 9104:9104
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.13
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    hostname: cadvisor
+    platform: linux/aarch64
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:ro"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+      - "/dev/disk/:/dev/disk:ro"
+    ports:
+      - "8080:8080"
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.6
+
   management1:
     image: mysql/mysql-cluster
     container_name: management1
@@ -44,7 +100,7 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     ports:
-      - "8080:80"
+      - "8081:80"
     environment:
       PMA_HOST: mysql1
       PMA_PORT: 3306
