@@ -3,7 +3,7 @@ import "./styles/App.css"
 function App() {
   return (
     <>
-      Hello YALL! BITCHES
+      Hello YALL! 
       <Table />
     </>
   );
