@@ -116,6 +116,7 @@ services:
     image: nicolasanachuri/frontend:latest
     #build: ./frontend
     container_name: frontend
+    #pull_policy: always
     ports:
       - "5000:5000"
     networks:
@@ -125,11 +126,14 @@ services:
     command: npm run dev -- --host 0.0.0.0
     depends_on:
       - backend 
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   backend:
     image: nicolasanachuri/server:latest
     #build: ./server
     container_name: backend
+    #pull_policy: always
     ports:
       - "3000:3000"
     networks:
@@ -146,6 +150,8 @@ services:
       DB_TABLENAME: users
     depends_on:
       - mysql1
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
 
   backup:
     image: mysql:5.7
@@ -166,6 +172,15 @@ services:
       cluster:
         ipv4_address: 192.168.0.12
 
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --label-enable --interval 30
+    restart: always
+    networks:
+      - cluster
 networks:
   cluster:
     driver: bridge
