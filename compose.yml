@@ -46,22 +46,22 @@ services:
       retries: 3
       start_period: 30s
 
-  # phpmyadmin:
-  #   image: phpmyadmin/phpmyadmin
-  #   container_name: phpmyadmin
-  #   ports:
-  #     - "8080:80"
-  #   environment:
-  #     PMA_HOST: mysql1
-  #     PMA_PORT: 3306
-  #     MYSQL_ROOT_PASSWORD: nicolas
-  #     PMA_ABSOLUTE_URI: http://localhost:8080/
-  #   depends_on:
-  #     - mysql1
-  #   networks:
-  #     cluster:
-  #       ipv4_address: 192.168.0.11
-  #
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql1
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: nicolas
+      PMA_ABSOLUTE_URI: http://localhost:8080/
+    depends_on:
+      - mysql1
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.11
+
   frontend:
     build: ./frontend
     container_name: frontend
@@ -95,24 +95,24 @@ services:
     depends_on:
       - mysql1
 
-  # backup:
-  #   image: mysql:5.7
-  #   container_name: backup
-  #   command: >
-  #     sh -c "
-  #     while true; do
-  #       mysqldump -h mysql1 -u root -pnicolas --all-databases > /backups/backup-$(date +%F-%H-%M).sql;
-  #       echo Backup completado a $(date);
-  #       sleep 86400;
-  #     done
-  #     "
-  #   volumes:
-  #     - db_backups:/backups
-  #   depends_on:
-  #     - mysql1
-  #   networks:
-  #     cluster:
-  #       ipv4_address: 192.168.0.12
+  backup:
+    image: mysql:5.7
+    container_name: backup
+    command: >
+      sh -c "
+      while true; do
+        mysqldump -h mysql1 -u root -pnicolas --all-databases > /backups/backup-$(date +%F-%H-%M).sql;
+        echo Backup completado a $(date);
+        sleep 86400;
+      done
+      "
+    volumes:
+      - db_backups:/backups
+    depends_on:
+      - mysql1
+    networks:
+      cluster:
+        ipv4_address: 192.168.0.12
 
 networks:
   cluster:
@@ -120,7 +120,7 @@ networks:
     ipam:
       config:
         - subnet: 192.168.0.0/24
-#
-# volumes:
-#   db_backups:
-#     driver: local
+
+volumes:
+  db_backups:
+    driver: local
