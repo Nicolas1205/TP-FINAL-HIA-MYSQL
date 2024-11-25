@@ -16,5 +16,7 @@ COPY . .
 # Exponer el puerto en el que se ejecutará la aplicación
 EXPOSE 3000
 
+
 # Comando para iniciar la aplicación
-CMD ["npm", "start"]
+#CMD ["sh -c"sleep 240", "&&", "npm", "start"]
+CMD sh -c "sleep 240 && npm start"
