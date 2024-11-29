@@ -16,7 +16,7 @@ function App() {
         <Table />
       </main>
       <footer className="app-footer">
-        <p>© 2024 Proyecto Grupo 10</p>
+        <p>© 2024 Proyecto Final HIA - Tito Benjamin, Marcelo Ignacio Rodriguez, Anachuri Nicolas, Alejo Bolanho</p>
         <p>Creado con 💻 y ☕</p>
       </footer>
     </>
