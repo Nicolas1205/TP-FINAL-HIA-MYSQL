@@ -1,4 +1,3 @@
-/* General Reset */
 body, html {
     margin: 0;
     padding: 0;
@@ -6,11 +5,13 @@ body, html {
     color: #333;
     background: #f9f9f9;
     scroll-behavior: smooth;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Header Styling */
 .app-header {
-    background-color: #4CAF50; /* Botón verde */
+    background-color: #4CAF50;
     color: white;
     padding: 1rem 0;
     text-align: center;
@@ -27,10 +28,11 @@ body, html {
     margin: 0;
 }
 
-/* Main Content Styling */
 .app-main {
+    flex: 1; 
     padding: 2rem;
     text-align: center;
+    overflow: auto;
 }
 
 .app-main p {
@@ -39,16 +41,13 @@ body, html {
     margin-bottom: 1.5rem;
 }
 
-/* Footer Styling */
 .app-footer {
-    background-color: #4CAF50; /* Botón verde */
+    background-color: #4CAF50;
     color: white;
     text-align: center;
     padding: 1rem 0;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
     animation: slideIn 1s ease-in-out;
+    margin-top: auto;
 }
 
 .app-footer p {
@@ -56,7 +55,6 @@ body, html {
     font-size: 0.9rem;
 }
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -75,7 +73,6 @@ body, html {
     }
 }
 
-/* Table Styling */
 table {
     margin: 0 auto;
     border-collapse: collapse;
@@ -89,7 +86,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50; /* Botón verde */
+    background-color: #4CAF50;
     color: white;
 }
 
@@ -98,7 +95,6 @@ tr:hover {
     transition: background-color 0.3s ease;
 }
 
-/* Button Styling */
 #button {
     display: block !important;
     margin: 2rem auto !important;
@@ -117,7 +113,6 @@ tr:hover {
     transform: scale(1.05);
 }
 
-/* Center Text */
 #h1, #h3 {
     text-align: center;
 }
