@@ -1,8 +1,123 @@
-#h1, #h3 {
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background: #f9f9f9;
+    scroll-behavior: smooth;
+}
+
+/* Header Styling */
+.app-header {
+    background-color: #4CAF50; /* Botón verde */
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.app-header h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.app-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+/* Main Content Styling */
+.app-main {
+    padding: 2rem;
     text-align: center;
 }
 
+.app-main p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1.5rem;
+}
+
+/* Footer Styling */
+.app-footer {
+    background-color: #4CAF50; /* Botón verde */
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    animation: slideIn 1s ease-in-out;
+}
+
+.app-footer p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+/* Table Styling */
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #4CAF50; /* Botón verde */
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Button Styling */
 #button {
     display: block !important;
     margin: 2rem auto !important;
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+/* Center Text */
+#h1, #h3 {
+    text-align: center;
 }
